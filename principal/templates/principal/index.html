@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="HäzBier - Chopp artesanal de Pato Branco. Tele-entrega e barril para festas." />
+  <title>HäzBier — Chopp Artesanal de Pato Branco</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── TOKENS ── */
+    :root {
+      --verde-fundo:  #0f1f14;
+      --verde-escuro: #1a7a2e;
+      --verde-medio:  #2da94f;
+      --amarelo:      #f5c400;
+      --amarelo-h:    #e0b200;
+      --preto:        #111111;
+      --branco:       #ffffff;
+      --cinza:        #b0c4b8;
+      --card-bg:      #142a1a;
+      --font-d: 'Bebas Neue', sans-serif;
+      --font-c: 'Barlow Condensed', sans-serif;
+      --font-b: 'Barlow', sans-serif;
+      --r: 10px;
+      --t: 0.22s ease;
+    }
+
+    /* ── RESET ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 68px; font-size: 16px; }
+    body { background: var(--verde-fundo); color: var(--branco); font-family: var(--font-b); line-height: 1.6; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+    img { max-width: 100%; display: block; }
+    address { font-style: normal; }
+
+    /* ── CONTAINER ── */
+    .wrap { width: 100%; max-width: 1120px; margin: 0 auto; padding: 0 1.25rem; }
+
+    /* ── BOTÕES ── */
+    .btn {
+      display: inline-flex; align-items: center; gap: .45rem;
+      font-family: var(--font-c); font-weight: 700; font-size: 1rem;
+      letter-spacing: .05em; text-transform: uppercase;
+      padding: .75rem 1.75rem; border-radius: var(--r);
+      border: 2px solid transparent; cursor: pointer;
+      transition: all var(--t); white-space: nowrap;
+    }
+    .btn-yellow  { background: var(--amarelo); color: var(--preto); }
+    .btn-yellow:hover  { background: var(--amarelo-h); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245,196,0,.4); }
+    .btn-outline { background: transparent; color: var(--branco); border-color: rgba(255,255,255,.45); }
+    .btn-outline:hover { border-color: var(--branco); background: rgba(255,255,255,.07); transform: translateY(-2px); }
+    .btn-green  { background: #25D366; color: var(--branco); font-size: 1.05rem; padding: .9rem 2rem; }
+    .btn-green:hover  { background: #1fb85a; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37,211,102,.35); }
+    .btn-ghost  { background: transparent; color: var(--verde-medio); border-color: var(--verde-medio); font-size: .875rem; padding: .55rem 1.2rem; }
+    .btn-ghost:hover  { background: var(--verde-medio); color: var(--branco); }
+    .btn-ghost-y { background: transparent; color: var(--amarelo); border-color: var(--amarelo); font-size: .875rem; padding: .55rem 1.2rem; }
+    .btn-ghost-y:hover { background: var(--amarelo); color: var(--preto); }
+    a:focus-visible, button:focus-visible { outline: 3px solid var(--amarelo); outline-offset: 3px; }
+
+    /* ── HEADER ── */
+    .site-header {
+      position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+      height: 68px;
+      background: rgba(9, 20, 11, 0.93);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(45,169,79,.18);
+    }
+    .header-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 100%; gap: 1rem;
+    }
+    .logo { display: flex; align-items: baseline; gap: .05rem; line-height: 1; flex-shrink: 0; }
+    .logo-h { font-family: var(--font-d); font-size: 1.9rem; color: var(--branco); }
+    .logo-b { font-family: var(--font-d); font-size: 1.9rem; color: var(--amarelo); }
+    .logo:hover .logo-h { color: #ddd; }
+    .logo:hover .logo-b { color: var(--amarelo-h); }
+
+    .main-nav { flex: 1; display: flex; justify-content: center; align-items: center; gap: 1rem; }
+    .nav-list { display: flex; gap: .15rem; }
+    .nav-divider { width: 1px; height: 1.2rem; background: rgba(255,255,255,.15); flex-shrink: 0; }
+    .nav-link {
+      font-family: var(--font-c); font-size: .9rem; font-weight: 600;
+      letter-spacing: .06em; text-transform: uppercase;
+      color: var(--cinza); padding: .4rem .7rem; border-radius: 6px;
+      position: relative; transition: color var(--t);
+    }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: 0; left: 50%;
+      transform: translateX(-50%) scaleX(0); width: 75%; height: 2px;
+      background: var(--amarelo); transition: transform var(--t); border-radius: 2px;
+    }
+    .nav-link:hover { color: var(--branco); }
+    .nav-link:hover::after { transform: translateX(-50%) scaleX(1); }
+
+    /* Social links no header */
+    .header-social { display: flex; align-items: center; gap: .35rem; }
+    .header-soc-link { display: flex; align-items: center; gap: .4rem; color: var(--cinza); font-family: var(--font-c); font-size: .82rem; font-weight: 600; letter-spacing: .04em; padding: .35rem .6rem; border-radius: 6px; transition: color var(--t), background var(--t); }
+    .header-soc-link svg { width: 1rem; height: 1rem; flex-shrink: 0; }
+    .header-soc-link:hover { color: var(--branco); background: rgba(45,169,79,.15); }
+
+    /* Mobile toggle */
+    .nav-toggle { display: none; }
+    .nav-btn {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; padding: 6px; flex-shrink: 0;
+    }
+    .nav-btn span { display: block; width: 22px; height: 2px; background: var(--branco); border-radius: 2px; transition: all var(--t); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative; min-height: 100svh;
+      display: flex; align-items: center; justify-content: center;
+      padding: calc(68px + 3.5rem) 1.25rem 4rem;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 75% 55% at 50% 30%, rgba(26,122,46,.5) 0%, transparent 68%),
+        linear-gradient(160deg, #080f09 0%, #0f1f14 50%, #101d12 100%);
+    }
+    .hero-pattern {
+      position: absolute; inset: 0; opacity: .035;
+      background-image:
+        repeating-linear-gradient(45deg,  var(--amarelo) 0, var(--amarelo) 1px, transparent 1px, transparent 40px),
+        repeating-linear-gradient(-45deg, var(--verde-medio) 0, var(--verde-medio) 1px, transparent 1px, transparent 40px);
+    }
+    .hero-content {
+      position: relative; z-index: 1; text-align: center; max-width: 820px;
+      animation: fadeUp .85s ease both;
+    }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: .4rem;
+      background: rgba(245,196,0,.1); border: 1px solid rgba(245,196,0,.28);
+      color: var(--amarelo); font-family: var(--font-c); font-size: .75rem;
+      font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+      padding: .35rem .9rem; border-radius: 100px; margin-bottom: 1.25rem;
+      animation: fadeUp .85s .1s ease both;
+    }
+    .hero-h1 {
+      font-family: var(--font-d); font-size: clamp(3rem, 10vw, 6.5rem);
+      line-height: .97; letter-spacing: .02em; color: var(--branco);
+      margin-bottom: .6rem; animation: fadeUp .85s .2s ease both;
+    }
+    .hero-h1 em { color: var(--amarelo); font-style: normal; display: block; }
+    .hero-sub {
+      font-family: var(--font-c); font-size: clamp(1rem, 2.8vw, 1.35rem);
+      font-style: italic; color: var(--cinza); margin-bottom: 2rem;
+      animation: fadeUp .85s .3s ease both;
+    }
+    .hero-btns {
+      display: flex; align-items: center; justify-content: center;
+      flex-wrap: wrap; gap: .9rem; margin-bottom: 3rem;
+      animation: fadeUp .85s .4s ease both;
+    }
+    .hero-stats {
+      display: flex; align-items: center; justify-content: center; gap: 2rem;
+      animation: fadeUp .85s .5s ease both;
+    }
+    .stat { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+    .stat-n { font-family: var(--font-d); font-size: 1.55rem; color: var(--amarelo); line-height: 1; }
+    .stat-l { font-family: var(--font-c); font-size: .68rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--cinza); }
+    .stat-div { width: 1px; height: 2.2rem; background: rgba(255,255,255,.14); }
+
+    /* ── SECTION UTILS ── */
+    .s-label {
+      display: inline-block; font-family: var(--font-c); font-size: .75rem;
+      font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--amarelo); margin-bottom: .75rem;
+    }
+    .s-title {
+      font-family: var(--font-d); font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1.05; letter-spacing: .02em; margin-bottom: .75rem;
+    }
+    .s-title em { color: var(--amarelo); font-style: normal; }
+    .s-text { color: var(--cinza); font-size: 1rem; line-height: 1.7; }
+    section { padding: 5rem 0; }
+
+    /* ── SOBRE ── */
+    .sobre { background: var(--preto); position: relative; }
+    .sobre::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--verde-escuro), transparent); }
+    .sobre-grid { display: grid; grid-template-columns: 1fr; gap: 5rem; align-items: center; justify-items: center; max-width: 720px; margin: 0 auto; }
+    .sobre-text { width: 100%; }
+    .sobre-text .s-text { margin-bottom: .9rem; }
+    .diferenciais { margin-top: 1.75rem; display: flex; flex-direction: column; gap: .6rem; }
+    .dif-item {
+      display: flex; align-items: flex-start; gap: .9rem;
+      padding: .85rem 1.1rem; background: var(--card-bg);
+      border: 1px solid rgba(45,169,79,.13); border-radius: var(--r);
+      transition: border-color var(--t), transform var(--t);
+    }
+    .dif-item:hover { border-color: rgba(45,169,79,.38); transform: translateX(4px); }
+    .dif-ico { font-size: 1.35rem; flex-shrink: 0; margin-top: 2px; }
+    .dif-item strong { display: block; font-family: var(--font-c); font-size: .95rem; font-weight: 700; color: var(--branco); }
+    .dif-item span { font-size: .88rem; color: var(--cinza); }
+
+    /* imagem placeholder */
+    .img-ph {
+      aspect-ratio: 4/5; background: linear-gradient(135deg, var(--card-bg) 0%, rgba(26,122,46,.18) 100%);
+      border: 2px dashed rgba(45,169,79,.25); border-radius: 18px;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .img-ph-inner { display: flex; flex-direction: column; align-items: center; gap: .35rem; text-align: center; padding: 1rem; }
+    .img-ph-inner > .ico { font-size: 3.5rem; opacity: .35; }
+    .img-ph-inner > span { font-family: var(--font-c); font-size: .95rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--cinza); }
+    .img-ph-inner > small { font-size: .75rem; color: rgba(176,196,184,.45); }
+    .badge-google {
+      position: absolute; bottom: -1rem; right: -1rem;
+      background: var(--amarelo); color: var(--preto);
+      border-radius: 14px; padding: .65rem 1.1rem; text-align: center;
+      box-shadow: 0 8px 32px rgba(0,0,0,.45);
+    }
+    .badge-google strong { display: block; font-family: var(--font-d); font-size: 2rem; line-height: 1; }
+    .badge-google small { font-family: var(--font-c); font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+
+    /* ── PRODUTOS ── */
+    /*.produtos { background: var(--verde-fundo); position: relative; }*/
+    /*.produtos::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(45,169,79,.25), transparent); }*/
+    /*.s-header { text-align: center; margin-bottom: 3rem; }*/
+    /*.s-header .s-text { max-width: 520px; margin: 0 auto; }*/
+    /*.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }*/
+    /*.card {*/
+    /*  background: var(--card-bg); border: 1px solid rgba(45,169,79,.13);*/
+    /*  border-radius: 18px; overflow: hidden; display: flex; flex-direction: column;*/
+    /*  transition: transform var(--t), border-color var(--t), box-shadow var(--t);*/
+    /*}*/
+    /*.card:hover { transform: translateY(-5px); border-color: rgba(45,169,79,.38); box-shadow: 0 12px 40px rgba(0,0,0,.45); }*/
+    /*.card-destaque { border-color: rgba(245,196,0,.25); }*/
+    /*.card-destaque:hover { border-color: var(--amarelo); box-shadow: 0 12px 40px rgba(245,196,0,.18); }*/
+    /*.card-img {*/
+    /*  aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center;*/
+    /*  font-size: 3.5rem; position: relative;*/
+    /*  background: linear-gradient(135deg, #1c3520, #2a4a30);*/
+    /*}*/
+    /*.card-img-dark { background: linear-gradient(135deg, #1a1a1a, #2d2010); }*/
+    /*.card-img-festa { background: linear-gradient(135deg, #1f2a12, #2d3a1a); }*/
+    /*.card-badge {*/
+    /*  position: absolute; top: .75rem; left: .75rem;*/
+    /*  background: var(--verde-escuro); color: var(--branco);*/
+    /*  font-family: var(--font-c); font-size: .68rem; font-weight: 700;*/
+    /*  letter-spacing: .1em; text-transform: uppercase;*/
+    /*  padding: .22rem .55rem; border-radius: 5px;*/
+    /*}*/
+    /*.card-badge-y { background: var(--amarelo); color: var(--preto); }*/
+    /*.card-body { padding: 1.25rem; flex: 1; display: flex; flex-direction: column; gap: .4rem; }*/
+    /*.card-nome { font-family: var(--font-c); font-size: 1.35rem; font-weight: 700; letter-spacing: .02em; }*/
+    /*.card-desc { color: var(--cinza); font-size: .88rem; line-height: 1.6; flex: 1; }*/
+    /*.card-body .btn { margin-top: .75rem; align-self: flex-start; }*/
+
+    /* ── TELE-ENTREGA ── */
+    .tele { background: #0a1a0e; position: relative; overflow: hidden; }
+    .tele-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 65% 75% at 25% 50%, rgba(245,196,0,.07) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 60% at 72% 50%, rgba(26,122,46,.14) 0%, transparent 60%);
+    }
+    .tele-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .tele-tag {
+      display: inline-flex; align-items: center; gap: .4rem;
+      background: rgba(37,211,102,.09); border: 1px solid rgba(37,211,102,.22);
+      color: #25D366; font-family: var(--font-c); font-size: .73rem; font-weight: 700;
+      letter-spacing: .14em; text-transform: uppercase;
+      padding: .32rem .85rem; border-radius: 100px; margin-bottom: .75rem;
+    }
+    .tele-title { font-family: var(--font-d); font-size: clamp(2.4rem, 5.5vw, 4rem); line-height: 1; color: var(--branco); margin-bottom: .6rem; }
+    .tele-sub { color: var(--cinza); font-size: 1rem; margin-bottom: 1.75rem; }
+    .tele-num {
+      display: inline-flex; align-items: center; gap: .75rem;
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--r); padding: .75rem 1.25rem; margin-bottom: 1.75rem;
+    }
+    .tele-num-ico { font-size: 1.35rem; }
+    .tele-num div { display: flex; flex-direction: column; gap: 1px; }
+    .tele-num label { font-family: var(--font-c); font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: var(--cinza); }
+    .tele-num a { font-family: var(--font-c); font-size: 1.25rem; font-weight: 700; color: var(--amarelo); }
+    .tele-num a:hover { color: var(--amarelo-h); }
+
+    /* ping visual */
+    .tele-visual { display: flex; align-items: center; justify-content: center; position: relative; height: 320px; }
+    .tele-circle {
+      width: 148px; height: 148px;
+      background: linear-gradient(135deg, var(--verde-escuro), var(--verde-medio));
+      border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .2rem;
+      position: relative; z-index: 2; box-shadow: 0 0 48px rgba(45,169,79,.32);
+    }
+    .tele-circle .ico { font-size: 2.8rem; }
+    .tele-circle span { font-family: var(--font-c); font-size: .65rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.65); }
+    .ping {
+      position: absolute; border-radius: 50%; border: 1px solid rgba(45,169,79,.38);
+      top: 50%; left: 50%; transform: translate(-50%,-50%);
+      animation: doPing 3s ease-in-out infinite;
+    }
+    .ping-1 { width: 190px; height: 190px; }
+    .ping-2 { width: 255px; height: 255px; animation-delay: .7s; border-color: rgba(45,169,79,.2); }
+    .ping-3 { width: 320px; height: 320px; animation-delay: 1.4s; border-color: rgba(45,169,79,.1); }
+    @keyframes doPing { 0% { opacity:.8; transform: translate(-50%,-50%) scale(.88); } 100% { opacity:0; transform: translate(-50%,-50%) scale(1.08); } }
+
+    /* ── DISTRIBUIDORES ── */
+    .dist { background: var(--preto); position: relative; }
+    .dist::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(45,169,79,.25), transparent); }
+    .dist-grid { display: grid; grid-template-columns: 1fr 1.15fr; gap: 5rem; align-items: center; }
+    .dist-ph {
+      aspect-ratio: 1; max-width: 400px;
+      background: var(--card-bg); border: 2px dashed rgba(45,169,79,.22);
+      border-radius: 18px; display: flex; align-items: center; justify-content: center;
+    }
+    .dist-ph-inner { display: flex; flex-direction: column; align-items: center; gap: .4rem; text-align: center; }
+    .dist-ph-inner .ico { font-size: 3.5rem; opacity: .35; }
+    .dist-ph-inner span { font-family: var(--font-c); font-size: .9rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--cinza); }
+    .dist-content .s-text { margin-bottom: 1.25rem; }
+    .vantagens { margin-bottom: 2rem; display: flex; flex-direction: column; gap: .5rem; }
+    .vantagens li { display: flex; align-items: center; gap: .55rem; font-family: var(--font-c); font-size: .98rem; font-weight: 600; color: #d4e8d8; }
+
+    /* ── FOOTER ── */
+    .site-footer { background: #060e08; border-top: 1px solid rgba(45,169,79,.13); }
+    .footer-top { padding: 4rem 0 3rem; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1.4fr; gap: 4rem; }
+    .footer-logo .logo-h { font-size: 2rem; }
+    .footer-logo .logo-b { font-size: 2rem; }
+    .footer-tagline { margin-top: .75rem; color: var(--cinza); font-size: .92rem; line-height: 1.65; }
+    .footer-social { display: flex; flex-direction: column; gap: .55rem; margin-top: 1.25rem; }
+    .soc-link { display: flex; align-items: center; gap: .55rem; color: var(--cinza); font-family: var(--font-c); font-size: .88rem; font-weight: 600; transition: color var(--t); }
+    .soc-link svg { width: 1rem; height: 1rem; opacity: .65; transition: opacity var(--t); flex-shrink: 0; }
+    .soc-link:hover { color: var(--branco); }
+    .soc-link:hover svg { opacity: 1; }
+    .footer-nav-title { font-family: var(--font-c); font-size: .7rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--amarelo); margin-bottom: 1rem; }
+    .footer-nav ul { display: flex; flex-direction: column; gap: .45rem; }
+    .footer-nav a { color: var(--cinza); font-size: .92rem; transition: color var(--t), padding-left var(--t); }
+    .footer-nav a:hover { color: var(--branco); padding-left: 4px; }
+    .footer-addr-list { display: flex; flex-direction: column; gap: .9rem; }
+    .footer-addr-list li { display: flex; align-items: flex-start; gap: .55rem; }
+    .addr-ico { font-size: .95rem; flex-shrink: 0; margin-top: 2px; }
+    .addr-body { display: flex; flex-direction: column; gap: 1px; }
+    .addr-body span, .addr-body a { color: var(--cinza); font-size: .88rem; line-height: 1.45; }
+    .addr-body a:hover { color: var(--branco); }
+    .footer-bottom { padding: 1.1rem 0; border-top: 1px solid rgba(255,255,255,.05); }
+    .footer-bottom-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .5rem; }
+    .footer-bottom p { color: rgba(176,196,184,.38); font-size: .8rem; }
+    .footer-bottom .legal { font-style: italic; }
+
+    /* ── RESPONSIVO ── */
+    @media (max-width: 900px) {
+      .sobre-grid, .tele-grid, .dist-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .img-ph { aspect-ratio: 16/9; }
+      .cards { grid-template-columns: repeat(2, 1fr); }
+      .tele-visual { height: 250px; }
+      .ping-3 { display: none; }
+      .dist-ph { max-width: 100%; aspect-ratio: 16/7; }
+      .dist-visual { order: -1; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+      .footer-brand { grid-column: 1 / -1; }
+    }
+
+    @media (max-width: 640px) {
+      section { padding: 3.5rem 0; }
+      .nav-btn { display: flex; }
+      .btn-cta-header { display: none; }
+      .main-nav {
+        display: none; position: fixed; top: 68px; left: 0; right: 0;
+        background: rgba(6,14,8,.97); padding: 1.25rem;
+        border-bottom: 1px solid rgba(45,169,79,.18);
+        backdrop-filter: blur(14px);
+      }
+      .header-inner:has(.nav-toggle:checked) .main-nav { display: flex; }
+      .nav-list { flex-direction: column; gap: 0; width: 100%; }
+      .nav-link { display: block; padding: .7rem .9rem; font-size: 1.05rem; border-radius: 8px; }
+      .nav-link:hover { background: rgba(45,169,79,.1); }
+      .nav-link::after { display: none; }
+      .nav-toggle:checked ~ .nav-btn span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+      .nav-toggle:checked ~ .nav-btn span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+      .nav-toggle:checked ~ .nav-btn span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+      .hero-stats { flex-direction: column; gap: .75rem; }
+      .stat-div { width: 36px; height: 1px; }
+      .hero-btns { flex-direction: column; align-items: stretch; }
+      .hero-btns .btn { justify-content: center; }
+      .cards { grid-template-columns: 1fr; }
+      .tele-num { flex-direction: column; align-items: flex-start; }
+      .tele-grid { text-align: center; }
+      .tele-num { margin: 0 auto 1.75rem; }
+      .btn-green { margin: 0 auto; }
+      .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .footer-bottom-inner { flex-direction: column; text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="wrap header-inner">
+
+      <a href="#inicio" class="logo" aria-label="HäzBier - Início">
+        <span class="logo-h">Häz</span><span class="logo-b">Bier</span>
+      </a>
+
+      <nav class="main-nav" aria-label="Navegação principal">
+        <ul class="nav-list">
+          <li><a href="#inicio"        class="nav-link">Início</a></li>
+          <li><a href="#sobre"         class="nav-link">Sobre</a></li>
+<!--          <li><a href="#produtos"      class="nav-link">Produtos</a></li>-->
+<!--          <li><a href="#distribuidores" class="nav-link">Distribuidores</a></li>-->
+          <li><a href="#contato"       class="nav-link">Contato</a></li>
+        </ul>
+
+        <span class="nav-divider"></span>
+
+        <div class="header-social" aria-label="Redes sociais">
+          <a href="https://instagram.com/hazbierchopp" class="header-soc-link" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            Instagram
+          </a>
+          <a href="https://facebook.com/hazbier" class="header-soc-link" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            Facebook
+          </a>
+        </div>
+      </nav>
+
+      <input type="checkbox" id="nav-toggle" class="nav-toggle" style="display:none" />
+      <label for="nav-toggle" class="nav-btn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </label>
+
+      <a href="https://wa.me/46991191122?text=Olá!%20Quero%20pedir%20um%20chopp%20HäzBier!"
+         class="btn btn-yellow btn-cta-header"
+         target="_blank" rel="noopener noreferrer"
+         style="font-size:.83rem; padding:.55rem 1.15rem;">
+        🍺 Peça seu Chopp
+      </a>
+
+    </div>
+  </header>
+
+
+  <main>
+
+    <!-- HERO -->
+    <section class="hero" id="inicio" aria-label="HäzBier Chopp Artesanal">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="hero-pattern" aria-hidden="true"></div>
+
+      <div class="hero-content">
+        <div class="hero-badge">★ 4.6 no Google · Pato Branco - PR</div>
+
+        <h1 class="hero-h1">
+          O Chopp Oficial<br />
+          <em>de Pato Branco</em>
+        </h1>
+
+        <p class="hero-sub">Onde tem HäzBier, tem alegria</p>
+
+        <div class="hero-btns">
+          <a href="https://wa.me/46991191122?text=Olá!%20Quero%20pedir%20um%20chopp%20HäzBier!"
+             class="btn btn-yellow" target="_blank" rel="noopener noreferrer">
+            📲 Peça via WhatsApp
+          </a>
+          <a href="https://wa.me/46991191122?text=Olá!%20Quero%20ser%20distribuidor%20do%20chopp%20HäzBier!" class="btn btn-outline">
+            🤝 Seja Distribuidor
+          </a>
+        </div>
+
+        <div class="hero-stats" aria-label="Destaques">
+          <div class="stat">
+            <span class="stat-n">100%</span>
+            <span class="stat-l">Artesanal</span>
+          </div>
+          <div class="stat-div" aria-hidden="true"></div>
+          <div class="stat">
+            <span class="stat-n">Tele</span>
+            <span class="stat-l">Entrega</span>
+          </div>
+          <div class="stat-div" aria-hidden="true"></div>
+          <div class="stat">
+            <span class="stat-n">Barril</span>
+            <span class="stat-l">para Festas</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- SOBRE -->
+    <section class="sobre" id="sobre">
+      <div class="wrap sobre-grid">
+
+        <div class="sobre-text">
+          <span class="s-label">Nossa história</span>
+          <h2 class="s-title">Feito com paixão,<br /><em>servido com orgulho</em></h2>
+          <p class="s-text">A HäzBier nasceu com um propósito simples: levar chopp artesanal de verdade para Pato Branco e região. Cada barril sai da nossa produção com o cuidado de quem trata a cerveja como arte.</p>
+          <p class="s-text">Seja para animar sua festa, brindar com os amigos ou simplesmente terminar o dia com o melhor chopp da cidade. A HäzBier está a uma mensagem de distância.</p>
+
+          <ul class="diferenciais">
+            <li class="dif-item">
+              <span class="dif-ico">🏆</span>
+              <div>
+                <strong>Chopp 100% Artesanal</strong>
+                <span>Produção própria com controle de qualidade em cada lote</span>
+              </div>
+            </li>
+            <li class="dif-item">
+              <span class="dif-ico">🚴</span>
+              <div>
+                <strong>Tele-entrega Rápida</strong>
+                <span>Seu chopp gelado sem sair de casa</span>
+              </div>
+            </li>
+            <li class="dif-item">
+              <span class="dif-ico">🎉</span>
+              <div>
+                <strong>Barril para Festas</strong>
+                <span>Pacotes especiais para eventos e comemorações</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+<!--        <div style="position:relative;">-->
+<!--          <div class="img-ph">-->
+<!--            &lt;!&ndash; {% block sobre_image %}{% endblock %} &ndash;&gt;-->
+<!--            <div class="img-ph-inner">-->
+<!--              <span class="ico">🍺</span>-->
+<!--              <span>Cervejaria HäzBier</span>-->
+<!--              <small>Pato Branco - PR</small>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="badge-google" aria-label="4.6 estrelas no Google">-->
+<!--            <strong>4.6</strong>-->
+<!--            <small>★ Google</small>-->
+<!--          </div>-->
+<!--        </div>-->
+
+<!--      </div>-->
+    </section>
+
+
+    <!-- PRODUTOS -->
+<!--    <section class="produtos" id="produtos">-->
+<!--      <div class="wrap">-->
+<!--        <header class="s-header">-->
+<!--          <span class="s-label">Nossos produtos</span>-->
+<!--          <h2 class="s-title">Escolha o seu <em>favorito</em></h2>-->
+<!--          <p class="s-text">Do clássico ao especial, temos o chopp certo para cada momento.</p>-->
+<!--        </header>-->
+
+<!--        <div class="cards">-->
+
+<!--          &lt;!&ndash; {% for produto in produtos %} &ndash;&gt;-->
+
+<!--          <article class="card">-->
+<!--            <div class="card-img">-->
+<!--              &lt;!&ndash; {% block img_claro %}{% endblock %} &ndash;&gt;-->
+<!--              🍺-->
+<!--              <span class="card-badge">Popular</span>-->
+<!--            </div>-->
+<!--            <div class="card-body">-->
+<!--              <h3 class="card-nome">Chopp Claro</h3>-->
+<!--              <p class="card-desc">Leve, refrescante e com aquele amargor equilibrado que todo amante de chopp adora. Perfeito para o dia a dia.</p>-->
+<!--              <a href="https://wa.me/554699119122?text=Quero%20saber%20mais%20sobre%20o%20Chopp%20Claro!"-->
+<!--                 class="btn btn-ghost" target="_blank" rel="noopener noreferrer">Saiba mais</a>-->
+<!--            </div>-->
+<!--          </article>-->
+
+<!--          <article class="card">-->
+<!--            <div class="card-img card-img-dark">-->
+<!--              &lt;!&ndash; {% block img_escuro %}{% endblock %} &ndash;&gt;-->
+<!--              🍻-->
+<!--            </div>-->
+<!--            <div class="card-body">-->
+<!--              <h3 class="card-nome">Chopp Escuro</h3>-->
+<!--              <p class="card-desc">Corpo encorpado, notas de malte torrado e caramelo. Para quem aprecia sabores intensos e complexos.</p>-->
+<!--              <a href="https://wa.me/554699119122?text=Quero%20saber%20mais%20sobre%20o%20Chopp%20Escuro!"-->
+<!--                 class="btn btn-ghost" target="_blank" rel="noopener noreferrer">Saiba mais</a>-->
+<!--            </div>-->
+<!--          </article>-->
+
+<!--          <article class="card card-destaque">-->
+<!--            <div class="card-img card-img-festa">-->
+<!--              &lt;!&ndash; {% block img_barril %}{% endblock %} &ndash;&gt;-->
+<!--              🎊-->
+<!--              <span class="card-badge card-badge-y">Top escolha</span>-->
+<!--            </div>-->
+<!--            <div class="card-body">-->
+<!--              <h3 class="card-nome">Barril para Festa</h3>-->
+<!--              <p class="card-desc">Transforme sua festa! Barris de chopp artesanal com tudo que você precisa para animar a galera.</p>-->
+<!--              <a href="https://wa.me/554699119122?text=Quero%20saber%20sobre%20o%20Barril%20para%20Festa!"-->
+<!--                 class="btn btn-ghost-y" target="_blank" rel="noopener noreferrer">Fazer pedido</a>-->
+<!--            </div>-->
+<!--          </article>-->
+
+          <!-- {% endfor %} -->
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- TELE-ENTREGA -->
+<!--    <section class="tele" id="tele-entrega">-->
+<!--      <div class="tele-bg" aria-hidden="true"></div>-->
+<!--      <div class="wrap tele-grid">-->
+
+<!--        <div class="tele-content">-->
+<!--          <span class="tele-tag">🚀 Delivery disponível</span>-->
+<!--          <h2 class="tele-title">Seu Chopp<br />Sem Sair de Casa!</h2>-->
+<!--          <p class="tele-sub">Liga, manda mensagem — é rápido. Seu HäzBier gelado chega em minutos.</p>-->
+
+<!--          <div class="tele-num">-->
+<!--            <span class="tele-num-ico">📱</span>-->
+<!--            <div>-->
+<!--              <label>WhatsApp / Tele-entrega</label>-->
+<!--              <a href="https://wa.me/554699119122" aria-label="Ligar para (46) 99119-1122">(46) 99119-1122</a>-->
+<!--            </div>-->
+<!--          </div>-->
+
+<!--          <a href="https://wa.me/554699119122?text=Olá!%20Quero%20pedir%20chopp%20pela%20tele-entrega!"-->
+<!--             class="btn btn-green"-->
+<!--             target="_blank" rel="noopener noreferrer">-->
+<!--            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1.2em;height:1.2em;flex-shrink:0" aria-hidden="true">-->
+<!--              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.99 1.09 5.727 2.892 7.839L.057 24l6.305-1.654A11.882 11.882 0 0012.05 23.784h.004c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>-->
+<!--            </svg>-->
+<!--            Chamar no WhatsApp-->
+<!--          </a>-->
+<!--        </div>-->
+
+<!--        <div class="tele-visual" aria-hidden="true">-->
+<!--          <div class="tele-circle">-->
+<!--            <span class="ico">🍺</span>-->
+<!--            <span>Gelado & Pronto</span>-->
+<!--          </div>-->
+<!--          <div class="ping ping-1"></div>-->
+<!--          <div class="ping ping-2"></div>-->
+<!--          <div class="ping ping-3"></div>-->
+<!--        </div>-->
+
+<!--      </div>-->
+<!--    </section>-->
+
+
+    <!-- DISTRIBUIDORES -->
+<!--    <section class="dist" id="distribuidores">-->
+<!--      <div class="wrap dist-grid">-->
+
+<!--        <div class="dist-visual">-->
+<!--          <div class="dist-ph">-->
+<!--            &lt;!&ndash; {% block dist_image %}{% endblock %} &ndash;&gt;-->
+<!--            <div class="dist-ph-inner">-->
+<!--              <span class="ico">🗺️</span>-->
+<!--              <span>Expansão HäzBier</span>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+
+<!--        <div class="dist-content">-->
+<!--          <span class="s-label">Seja parceiro</span>-->
+<!--          <h2 class="s-title">Quer levar HäzBier<br /><em>para sua cidade?</em></h2>-->
+<!--          <p class="s-text">Estamos expandindo! Se você quer empreender com um produto de qualidade, reconhecido e com mercado garantido, a HäzBier tem a oportunidade certa para você.</p>-->
+
+<!--          <ul class="vantagens">-->
+<!--            <li><span>✅</span> Produto artesanal com identidade forte</li>-->
+<!--            <li><span>✅</span> Suporte comercial e logístico</li>-->
+<!--            <li><span>✅</span> Alta demanda regional comprovada</li>-->
+<!--            <li><span>✅</span> Marca reconhecida em Pato Branco</li>-->
+<!--          </ul>-->
+
+<!--          <a href="https://wa.me/554699119122?text=Olá!%20Tenho%20interesse%20em%20ser%20distribuidor%20HäzBier!"-->
+<!--             class="btn btn-yellow" target="_blank" rel="noopener noreferrer">-->
+<!--            🤝 Quero ser distribuidor-->
+<!--          </a>-->
+<!--        </div>-->
+
+<!--      </div>-->
+<!--    </section>-->
+
+<!--  </main>-->
+
+
+  <!-- FOOTER / CONTATO -->
+  <footer class="site-footer" id="contato">
+    <div class="footer-top">
+      <div class="wrap footer-grid">
+
+        <div class="footer-brand">
+          <a href="#inicio" class="logo footer-logo" aria-label="HäzBier - topo">
+            <span class="logo-h">Häz</span><span class="logo-b">Bier</span>
+          </a>
+          <p class="footer-tagline">Chopp é HazBier.<br />Feito em Pato Branco, com orgulho.</p>
+          <div class="footer-social" aria-label="Redes sociais">
+            <a href="https://instagram.com/hazbierchopp" class="soc-link" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+              @hazbierchopp
+            </a>
+            <a href="https://facebook.com/hazbier" class="soc-link" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+              Facebook
+            </a>
+          </div>
+        </div>
+
+        <nav class="footer-nav" aria-label="Links do rodapé">
+          <h3 class="footer-nav-title">Navegação</h3>
+          <ul>
+            <li><a href="#inicio">Início</a></li>
+            <li><a href="#sobre">Sobre</a></li>
+<!--            <li><a href="#produtos">Produtos</a></li>-->
+<!--            <li><a href="#distribuidores">Distribuidores</a></li>-->
+            <li><a href="#contato">Contato</a></li>
+          </ul>
+        </nav>
+
+        <address aria-label="Contato">
+          <h3 class="footer-nav-title">Contato</h3>
+          <ul class="footer-addr-list">
+            <li>
+              <span class="addr-ico">📍</span>
+              <div class="addr-body">
+                <span>Rua Luíz Parzianello, nº 240</span>
+                <span>Fraron · Pato Branco - PR</span>
+                <span>CEP 85503-340</span>
+              </div>
+            </li>
+            <li>
+              <span class="addr-ico">📞</span>
+              <div class="addr-body">
+                <a href="tel:+554632256913">(46) 3225-6913</a>
+              </div>
+            </li>
+            <li>
+              <span class="addr-ico">📱</span>
+              <div class="addr-body">
+                <a href="https://wa.me/554699119122" target="_blank" rel="noopener noreferrer">
+                  (46) 99119-1122 <em style="font-size:.8rem;color:rgba(176,196,184,.45)">(WhatsApp)</em>
+                </a>
+              </div>
+            </li>
+          </ul>
+        </address>
+
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="wrap footer-bottom-inner">
+        <p>© 2025 Cervejaria HazBier. Todos os direitos reservados.</p>
+        <p class="legal">Beba com moderação. Venda proibida para menores de 18 anos.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
